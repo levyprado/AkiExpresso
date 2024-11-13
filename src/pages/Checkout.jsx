@@ -30,10 +30,12 @@ export default function Checkout({ checkoutProducts, checkoutOpen, onClick }) {
     setSelectedShippingOption(shippingOption)
   }
 
-  const checkoutTotalPrice = checkoutProducts.reduce(
+  const checkoutSubtotalPrice = checkoutProducts.reduce(
     (acc, p) => acc + p.price * p.quantity,
     0,
   )
+
+  const checkoutTotalPrice = checkoutSubtotalPrice + shippingOption.price
 
   return (
     <AnimatePresence>
@@ -65,7 +67,7 @@ export default function Checkout({ checkoutProducts, checkoutOpen, onClick }) {
                       {checkoutProducts.length === 1 ? 'item' : 'itens'}
                     </span>
                     <p className='text-lg font-medium text-brand xl:text-xl'>
-                      {formatPrice(checkoutTotalPrice)}
+                      {formatPrice(checkoutSubtotalPrice)}
                     </p>
                   </div>
                   <div className='flex items-center justify-between'>
@@ -117,7 +119,9 @@ export default function Checkout({ checkoutProducts, checkoutOpen, onClick }) {
               <div className='-mx-4 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3'>
                 <div>
                   <p className='text-sm leading-tight text-lightgray'>Total</p>
-                  <p className='text-lg font-medium leading-tight'>$ 324.00</p>
+                  <p className='text-lg font-medium leading-tight'>
+                    {formatPrice(checkoutTotalPrice)}
+                  </p>
                 </div>
                 <Button>Finalizar pedido</Button>
               </div>
