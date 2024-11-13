@@ -61,7 +61,7 @@ export default function Search() {
           <div className='mt-1 px-4 lg:hidden'>
             <SearchForm autoFocus />
           </div>
-          <div className='overflow-y-scroll py-2'>
+          <div className='overflow-y-auto py-2'>
             {loading && (
               <p className='text-center text-lg font-medium text-lightgray'>
                 Procurando...

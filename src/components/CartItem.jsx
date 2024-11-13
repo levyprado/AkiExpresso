@@ -101,7 +101,6 @@ export default function CartItem({
           <QuantityButton
             onClick={handleOnDecrease}
             icon={<Minus className='size-4 md:size-5' />}
-            label='Decrease'
           />
           <AnimatePresence initial={false} mode='wait'>
             <motion.span
@@ -118,7 +117,6 @@ export default function CartItem({
           <QuantityButton
             onClick={handleOnIncrease}
             icon={<Plus className='size-4 md:size-5' />}
-            label='Increase'
           />
         </div>
       </div>

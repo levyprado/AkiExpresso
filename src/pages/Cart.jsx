@@ -41,61 +41,65 @@ export default function Cart() {
   )
 
   return (
-    <div className='bg-gray-50'>
-      <div className={` ${checkoutOpen ? 'hidden' : 'hidden lg:block'}`}>
-        <Header />
-      </div>
-      <div className='mx-auto grid h-dvh max-w-screen-lg grid-rows-[auto_1fr_auto] bg-gray-50 px-4 lg:pt-24 xl:pt-28 2xl:pt-32'>
-        <PageHeader page='Carrinho' onClick={() => navigate('/')} />
-        <div className='no-scrollbar flex flex-col gap-4 overflow-y-scroll py-2 pb-4 md:py-3 md:pb-6'>
-          {cartProducts.length > 0 ? (
-            cartProducts.map(cartItem => (
-              <CartItem
-                key={cartItem.id}
-                cartItem={cartItem}
-                checkoutProducts={checkoutProducts}
-                setCheckoutProducts={setCheckoutProducts}
-                handleOnChange={handleOnChange}
-              />
-            ))
-          ) : (
-            <EmptyMessage message='Nenhum item no carrinho.' />
-          )}
+    <>
+      <div className='bg-gray-50 px-4'>
+        <div className={` ${checkoutOpen ? 'hidden' : 'hidden lg:block'}`}>
+          <Header />
         </div>
-        <div className='-mx-4 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3'>
-          <div className='flex items-center gap-5'>
-            <label className='flex items-center gap-2' htmlFor='select-all'>
-              <input
-                className='size-5 accent-brand'
-                type='checkbox'
-                id='select-all'
-                onChange={handleSelectAll}
-                checked={checkoutProducts.length === cartProducts.length}
-                value={checkoutProducts.length === cartProducts.length}
-              />
-              <span className='text-sm'>Todos</span>
-            </label>
-            <div className='leading-tight'>
-              <p className='text-sm text-lightgray'>Total</p>
-              <motion.p
-                key={cartTotalPrice}
-                initial={{ y: 15, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ type: 'spring', bounce: 0, duration: 0.3 }}
-                className='font-medium'
-              >
-                {formatPrice(cartTotalPrice)}
-              </motion.p>
-            </div>
+        <div className='mx-auto grid h-dvh max-w-screen-lg grid-rows-[auto_1fr_auto] lg:pt-24 xl:pt-28 2xl:pt-32'>
+          <PageHeader page='Carrinho' onClick={() => navigate('/')} />
+          <div className='no-scrollbar flex flex-col gap-4 overflow-y-scroll py-2 pb-4 md:py-3 md:pb-6'>
+            {cartProducts.length === 0 && (
+              <EmptyMessage message='Nenhum produto salvo.' />
+            )}
+
+            <ul className='grid grid-cols-1 gap-4'>
+              {cartProducts.map(cartItem => (
+                <CartItem
+                  key={cartItem.id}
+                  cartItem={cartItem}
+                  checkoutProducts={checkoutProducts}
+                  setCheckoutProducts={setCheckoutProducts}
+                  handleOnChange={handleOnChange}
+                />
+              ))}
+            </ul>
           </div>
-          <Button
-            onClick={() => {
-              if (checkoutProducts.length === 0) return
-              setCheckoutOpen(true)
-            }}
-          >
-            Continuar
-          </Button>
+          <div className='-mx-4 mt-2 flex items-center justify-between border-2 border-t border-gray-200 bg-white px-4 py-3 lg:mx-0'>
+            <div className='flex items-center gap-5'>
+              <label className='flex items-center gap-2' htmlFor='select-all'>
+                <input
+                  className='size-5 accent-brand'
+                  type='checkbox'
+                  id='select-all'
+                  onChange={handleSelectAll}
+                  checked={checkoutProducts.length === cartProducts.length}
+                  value={checkoutProducts.length === cartProducts.length}
+                />
+                <span className='text-sm'>Todos</span>
+              </label>
+              <div className='leading-tight'>
+                <p className='text-sm text-lightgray'>Total</p>
+                <motion.p
+                  key={cartTotalPrice}
+                  initial={{ y: 15, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ type: 'spring', bounce: 0, duration: 0.3 }}
+                  className='font-medium'
+                >
+                  {formatPrice(cartTotalPrice)}
+                </motion.p>
+              </div>
+            </div>
+            <Button
+              onClick={() => {
+                if (checkoutProducts.length === 0) return
+                setCheckoutOpen(true)
+              }}
+            >
+              Continuar
+            </Button>
+          </div>
         </div>
       </div>
       <Checkout
@@ -104,6 +108,6 @@ export default function Cart() {
         checkoutProducts={checkoutProducts}
       />
       {activeProduct && <ProductDetail key={activeProduct.id} />}
-    </div>
+    </>
   )
 }
